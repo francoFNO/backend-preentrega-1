@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "God of War",
+    "description": "juego de dioses",
+    "price": 5000,
+    "thumbnail": "https://gmedia.playstation.com/is/image/SIEPDC/god-of-war-listing-thumb-01-ps4-us-12jun17?$1600px$",
+    "code": "P001",
+    "stock": 10
+  },
+  {
+    "id": 2,
+    "title": "The last of us",
+    "description": "juego de zombies",
+    "price": 4000,
+    "thumbnail": "https://gmedia.playstation.com/is/image/SIEPDC/the-last-of-us-part-i-keyart-01-en-18may22?$1600px$",
+    "code": "P002",
+    "stock": 5
+  },
+  {
+    "id": 3,
+    "title": "Uncharted",
+    "description": "juego de aventura",
+    "price": 3000,
+    "thumbnail": "https://gmedia.playstation.com/is/image/SIEPDC/uncharted-legacy-of-thieves-hero-keyart-02-en-15sep21?$1200px$",
+    "code": "P003",
+    "stock": 15
+  }
+]
