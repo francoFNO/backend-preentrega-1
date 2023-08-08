@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const handlebars = require('express-handlebars');
+app.engine('handlebars', handlebars());
+app.set('view engine', 'handlebars');
 
 const app = express();
 app.use(bodyParser.json());
@@ -201,6 +206,17 @@ app.get('/api/products/:pid', (req, res) => {
     return;
   }
 
+  // Ruta para mostrar la lista de productos utilizando Handlebars
+app.get('/', (req, res) => {
+  const products = productManager.getProducts();
+  res.render('home', { products });
+});
+
+// Ruta para mostrar la lista de productos en tiempo real utilizando Handlebars
+app.get('/realtimeproducts', (req, res) => {
+  const products = productManager.getProducts();
+  res.render('realTimeProducts', { products });
+});
   const product = productManager.getProductById(productId);
   if (!product) {
     res.status(404).json({ error: 'Product not found' });
@@ -310,4 +326,20 @@ app.post('/api/carts/:cid/product/:pid', (req, res) => {
 const port = 8080;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+});
+
+
+// Configurar Socket.IO para comunicación en tiempo real
+io.on('connection', (socket) => {
+  console.log('Un cliente se ha conectado');
+
+  // Escuchar evento cuando se agrega un producto
+  productManager.on('productAdded', (product) => {
+    io.emit('productAdded', product);
+  });
+
+  // Escuchar evento cuando se elimina un producto
+  productManager.on('productDeleted', (productId) => {
+    io.emit('productDeleted', productId);
+  });
 });

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Productos en Tiempo Real</title>
+</head>
+<body>
+    <h1>Lista de Productos en Tiempo Real</h1>
+    <ul id="productList">
+        <!-- Lista de productos se actualizará aquí -->
+    </ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Escuchar evento de producto agregado
+        socket.on('productAdded', (product) => {
+            const productItem = document.createElement('li');
+            productItem.textContent = `${product.title} - ${product.price}`;
+            document.getElementById('productList').appendChild(productItem);
+        });
+
+        // Escuchar evento de producto eliminado
+        socket.on('productDeleted', (productId) => {
+            const productItem = document.querySelector(`li[data-id="${productId}"]`);
+            if (productItem) {
+                productItem.remove();
+            }
+        });
+    </script>
+</body>
+</html>
